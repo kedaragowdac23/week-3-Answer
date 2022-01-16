@@ -1,0 +1,357 @@
+#include <iostream>
+using namespace std;
+#include<memory>
+
+class A {
+	int lh;
+	int bh;
+
+public:
+	A(int l, int b){
+		lh = l;
+		bh = b;
+	}
+
+	int area(){
+		return lh * bh;
+	}
+};
+
+int main(){
+
+	unique_ptr<A> P1(new A(5,5));
+	cout << P1->area() << endl; 
+
+	
+	unique_ptr<A> P2;
+	P2 = move(P1);
+
+
+	cout << P2->area() << endl;
+
+	cout<<P1->area()<<endl;
+	return 0;
+}
+
+output:
+25
+25
+===============================================
+ Read & Write File Operation (Convert lowercase to uppercase)  Program:
+#include<fstream.h>
+#include<stdio.h>
+#include<ctype.h>
+#include<string.h>
+#include<iostream.h>
+#include<conio.h>
+
+void main() {
+    char c, u;
+    char fname[10];
+    clrscr();
+    ofstream out;
+    cout << "Enter File Name:";
+    cin>>fname;
+    out.open(fname);
+    cout << "Enter the text(Enter # at end)\n"; //write contents to file
+    while ((c = getchar()) != '#') {
+        u = c - 32;
+        out << u;
+    }
+    out.close();
+    ifstream in(fname); //read the contents of file
+    cout << "\n\n\t\tThe File contains\n\n";
+    while (in.eof() == 0) {
+        in.get(c);
+        cout << c;
+    }
+    getch();
+}
+
+
+ 
+input:
+Enter File Name: two.txt
+Enter contents to store in file (enter # at end)
+oops programming
+
+output:
+The File Contains
+OOPS PROGRAMMING
+
+================================================================
+
+#include<iostream>
+using namespace std;
+
+class Mangoes{
+public:
+int nMango;
+Mangoes(){
+cout<<"No. of mangoes"<<endl;
+cin>>nMango;
+}
+};
+
+class Apples{
+public:
+int nApple;
+Apples(){
+cout<<"No. of apples"<<endl;
+ cin>>nApple;
+}
+};
+
+class Fruit : public Mangoes, Apples{
+public:
+int nFruits;
+void cal_no_of_fruit(){
+nFruits = nMango+nApple;
+}
+int display(){
+cout<<"No. of fruit are "<<endl;
+cout<<nFruits<<endl;
+}
+};
+
+int main(){
+Fruit f;
+f.cal_no_of_fruit();
+f.display();
+return 0;
+}
+
+
+output:
+No. of mangoes
+1
+No. of apples
+2
+No. of fruit are
+3
+
+==============================================================
+How to find next greatest number from the same set of digits using a C++ program?
+
+
+#include <iostream>
+#include<string.h>
+using namespace std;
+int main()
+{
+    char number[10];
+    int num[10];
+    cout<<"Enter a number: ";       
+    cin>>number;
+    int i,length=strlen(number);
+    for(i=0;i<length;i++){              
+            int n=number[i];
+        switch(n){
+            case 48:num[i]=0;
+               break;
+            case 49:num[i]=1;
+               break;
+            case 50:num[i]=2; 
+               break;
+            case 51:num[i]=3; 
+               break;
+            case 52:num[i]=4;
+                 break;
+            case 53:num[i]=5;
+                  break;
+            case 54:num[i]=6;
+                 break;
+            case 55:num[i]=7; 
+                   break;
+            case 56:num[i]=8;
+                  break;
+            case 57:num[i]=9;
+                 break;
+        }
+    }
+    int pos;
+    int small,nextbig=9;
+    for(pos=length-1;pos>0;pos--){
+        if(num[pos]>num[pos-1])
+            break;
+    }
+    if(pos==0){             
+// if digits of numbers are in decreasing order
+        cout<<"This is already the greatest number of all the possible combinations.";
+        return 0;
+    }else
+        small=num[pos-1];
+    int pos2;
+    for(int i=pos;i<length;i++){
+        if(num[i]>small&&num[i]<nextbig){
+            nextbig=num[i];
+            pos2=i;
+        }
+    }
+    swap(num[pos-1],num[pos2]);
+    for(i=pos;i<length;i++){
+        for(int j=pos;j<=length-i;j++){
+            if(num[j]>num[j+1]){
+                int temp=num[j];
+                num[j]=num[j+1];
+                num[j+1]=temp;
+            }
+        }
+    }
+    cout<<"Next greater number in the sequence is: ";
+    for(i=0;i<length;i++)
+        cout<<num[i];
+    return 0;
+}
+void swap(int &a,int &b){
+    int temp;
+    temp=a;
+    a=b;
+    b=temp;
+}
+
+output:
+
+Enter a number: 12345
+Next greater number in the sequence is: 12354
+
+
+===================================================================================
+
+
+
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+#include<ctype.h>
+
+using namespace std;
+
+int main()
+{
+     char uname[50];
+     char pass[20];
+     cout<<"\n Enter User Name  :  ";
+     gets(uname);
+     cout<<"\n Enter Password   :  ";
+     gets(pass);
+     try
+     {
+                                                               
+          if(strlen(pass)<6)
+          {
+               cout<<"\n Password must be at least 6 Characters Long..."<<endl;
+               throw 'c';
+          }
+          
+          bool digit_yes=false;
+          bool valid;
+          int len = strlen(pass);
+          for (int count = 0; count < len; count++)
+          if (isdigit(pass[count]))
+               digit_yes=true;
+          if (!digit_yes)
+          {
+               valid=false;
+               cout <<"\n Password must have at least One Digit (0-9)"<< endl;
+               throw 'c';
+          }
+          else
+          {
+               valid=true;
+               cout<<"\n Password is Correct";
+          }
+     }
+     catch(char c)
+     {
+          cout<<"\n Invalid Password Format!!!";
+     }
+     catch(...)
+     {
+          cout<<"\n Default Exception";
+     }
+     return 0;
+}
+
+
+output:
+
+ Enter User Name  :  kedar
+
+ Enter Password   :  kedar123
+
+ Password is Correct
+
+=============================================================
+#include<iostream>
+#include<string>
+using namespace std;
+
+int main()
+{
+     float n1, n2, result;
+     char Operator;
+
+     cout<<"\n Perform Arithmetic Operations on Two Numbers";
+     cout<<"\n********************************************";
+
+     try
+     {
+          cout<<"\n Enter First Number   :  ";
+          cin>>n1;
+          if(n1==0)
+               throw 0;
+          cout<<"\n Enter Operator       :  ";
+          cin>>Operator;
+          if(Operator != '+' && Operator != '-' &&
+               Operator != '*' && Operator != '/')
+          throw Operator;
+          cout<<"\n Enter Second Number  :  ";
+          cin>>n2;
+          cout<<"\n *********************************";
+          switch(Operator)
+          {
+               case '+':
+                    result=n1+n2;
+                    break;
+               case '-':
+                    result=n1-n2;
+                    break;
+               case '*':
+                    result=n1*n2;
+                    break;
+               case '/':
+                    result=n1/n2;
+                    break;
+          }
+          if(n2== 0) //finding if the denominator is 0
+               throw 0;
+          cout<<"\n Answer : "<<n1<<" "<<Operator<<" "<<n2<<" = "<<result;
+     }
+     catch(const char c)
+     {
+          cout<<"\n Exception Caught... \n Bad Operator : "<<c<<" is not a Valid Operator";
+     }
+     catch(const int n)
+     {
+          cout<<"\n Error : Bad Operation...";
+     }
+     return 0;
+}
+
+
+output:
+
+
+ Perform Arithmetic Operations on Two Numbers
+********************************************
+ Enter First Number   :  1
+
+ Enter Operator       :  +
+
+ Enter Second Number  :  2
+
+ *********************************
+ Answer : 1 + 2 = 3
+
+========================================================
